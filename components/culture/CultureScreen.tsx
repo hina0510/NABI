@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { Destination } from "@/types/destination";
-import type { CultureCategoryId } from "@/types/culture";
+import type { CultureCategoryId, CulturePlace } from "@/types/culture";
 import { CULTURE_CONTENT, getCulturePlaces } from "@/lib/mockCulture";
 import { ChevronDownIcon, ChevronLeftIcon, HeartIcon, LandmarkIcon } from "@/components/common/Icons";
 import BottomNav from "@/components/common/BottomNav";
@@ -15,11 +15,19 @@ import styles from "./Culture.module.css";
 interface CultureScreenProps {
   destination: Destination;
   onBack: () => void;
+  // 선택한 탭은 부모(page.tsx)가 기억한다 → Detail에서 돌아와도 탭이 유지됨
+  category: CultureCategoryId;
+  onCategoryChange: (category: CultureCategoryId) => void;
+  onSelectPlace: (place: CulturePlace) => void;
 }
 
-export default function CultureScreen({ destination, onBack }: CultureScreenProps) {
-  const [category, setCategory] = useState<CultureCategoryId>("all");
-
+export default function CultureScreen({
+  destination,
+  onBack,
+  category,
+  onCategoryChange,
+  onSelectPlace,
+}: CultureScreenProps) {
   // Home에서 스크롤한 위치가 남지 않도록 화면 진입 시 맨 위로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -53,7 +61,7 @@ export default function CultureScreen({ destination, onBack }: CultureScreenProp
       {content && section ? (
         <main>
           <CultureHero section={section} />
-          <CultureTabs active={category} onChange={setCategory} />
+          <CultureTabs active={category} onChange={onCategoryChange} />
 
           <div className={styles.results}>
             <div className={styles.resultsHead}>
@@ -70,7 +78,12 @@ export default function CultureScreen({ destination, onBack }: CultureScreenProp
 
             <div className={styles.list}>
               {places.map((place, index) => (
-                <CulturePlaceCard key={place.id} place={place} index={index} />
+                <CulturePlaceCard
+                  key={place.id}
+                  place={place}
+                  index={index}
+                  onSelect={() => onSelectPlace(place)}
+                />
               ))}
             </div>
 

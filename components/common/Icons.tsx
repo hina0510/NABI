@@ -218,6 +218,44 @@ export function BookmarkIcon({ size = 24, className }: IconProps) {
   );
 }
 
+export function ShareIcon({ size = 20, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2} className={className} {...base}>
+      <circle cx="18" cy="5.5" r="2.5" />
+      <circle cx="6" cy="12" r="2.5" />
+      <circle cx="18" cy="18.5" r="2.5" />
+      <path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" />
+    </svg>
+  );
+}
+
+export function StarIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+      <path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z" />
+    </svg>
+  );
+}
+
+export function MapPinIcon({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2} className={className} {...base}>
+      <path d="M12 21s-6.5-6.2-6.5-11.3a6.5 6.5 0 0113 0C18.5 14.8 12 21 12 21z" />
+      <circle cx="12" cy="9.7" r="2.3" />
+    </svg>
+  );
+}
+
+export function RouteIcon({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2} className={className} {...base}>
+      <circle cx="6" cy="18" r="2.3" />
+      <circle cx="18" cy="6" r="2.3" />
+      <path d="M8.3 18h7.2a3.3 3.3 0 000-6.6h-7a3.3 3.3 0 010-6.6h7.2" />
+    </svg>
+  );
+}
+
 export function ImageIcon({ size = 28, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={1.6} className={className} {...base}>

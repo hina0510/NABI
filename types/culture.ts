@@ -34,3 +34,57 @@ export interface CultureContent {
   sections: Record<CultureCategoryId, CultureSection>;
   places: CulturePlace[];
 }
+
+// ===== Place Detail =====
+// 이름/설명/이미지는 CulturePlace에 있고, Detail 화면에서만 필요한 정보만 따로 둔다.
+// CulturePlace.id 로 연결한다. (현재는 mock data 전용)
+
+export interface PlacePhoto {
+  id: string;
+  alt: string;
+  imageUrl?: string; // 없으면 placeholder 표시
+}
+
+// Travel Info 한 칸 (예: 09:00 – 18:00 / Closed on Tuesdays)
+export interface PlaceInfoItem {
+  value: string;
+  note?: string;
+  highlight?: boolean; // 강조 색상 (예: Free Entry)
+}
+
+export interface PlaceTravelInfo {
+  openingHours: PlaceInfoItem;
+  recommendedVisit: PlaceInfoItem;
+  bestTime: PlaceInfoItem;
+  admission?: PlaceInfoItem;
+  address: string;
+}
+
+export interface PlaceStoryPoint {
+  label: string; // 1395 / Meaning / Look for
+  text: string;
+}
+
+export interface PlaceHistoryStory {
+  lead: string;
+  points: PlaceStoryPoint[];
+}
+
+// 주변 장소는 다른 CulturePlace의 id + 거리만 저장한다.
+export interface NearbyPlaceRef {
+  placeId: string;
+  distanceKm: number; // mock 거리 (GPS 미사용)
+}
+
+export interface CulturePlaceDetail {
+  rating: number; // mock 값
+  reviewCount: string; // 1.2k
+  city: string; // Seoul
+  district: string; // Jongno-gu
+  intro: string; // 1~2줄 소개 (\n 으로 줄바꿈)
+  about: string[]; // 문단 목록
+  photos: PlacePhoto[];
+  travelInfo: PlaceTravelInfo;
+  historyStory?: PlaceHistoryStory; // 없으면 Section 자체를 숨김
+  nearby: NearbyPlaceRef[];
+}

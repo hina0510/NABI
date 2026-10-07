@@ -1,0 +1,420 @@
+/* ===== Layout ===== */
+.screen {
+  width: 100%;
+  max-width: var(--app-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom)); /* BottomNav 높이만큼 (Culture와 동일) */
+  background: var(--bg);
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+}
+
+.heroImage {
+  aspect-ratio: 384 / 458;
+  width: 100%;
+}
+
+.heroBar {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top));
+  right: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heroButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(10, 20, 38, 0.12);
+  backdrop-filter: blur(6px);
+}
+
+.heroButton:first-child {
+  margin-right: auto;
+}
+
+.heroCount {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(10, 20, 38, 0.5);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Identity ===== */
+.identity {
+  padding: 18px 16px 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 4px 12px;
+  border-radius: 14px;
+  background: var(--chip-bg);
+  color: var(--text-sub);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.chipPrimary {
+  background: #dff0fb;
+  color: var(--sky-dark);
+}
+
+.title {
+  margin: 12px 0 0;
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+.localName {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.star {
+  color: #f5b301;
+}
+
+.rating {
+  color: #e39b00;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.metaDot {
+  margin: 0 3px;
+}
+
+.intro {
+  margin: 14px 0 0;
+  color: var(--text-sub);
+  font-size: 13.5px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* ===== Quick Actions ===== */
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+  padding: 0 14px;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.08);
+}
+
+.actionIcon {
+  color: var(--sky-dark);
+}
+
+/* ===== Section ===== */
+.section {
+  margin-top: 30px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--sky-dark);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===== About ===== */
+.about {
+  padding: 0 16px;
+}
+
+.aboutText {
+  margin: 12px 0 0;
+  color: var(--text-sub);
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.readMore {
+  margin-top: 12px;
+}
+
+.readMoreOpen svg {
+  transform: rotate(180deg);
+}
+
+/* ===== Photos (Home horizontal scroll과 같은 방식) ===== */
+.photos {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 0 16px 6px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 16px;
+  scrollbar-width: none;
+}
+
+.photos::-webkit-scrollbar {
+  display: none;
+}
+
+.photo {
+  flex: 0 0 auto;
+  width: 112px;
+  height: 112px;
+  border-radius: 16px;
+  scroll-snap-align: start;
+}
+
+/* ===== Card (Travel Info / History) ===== */
+.card {
+  margin: 14px 16px 0;
+  padding: 18px 16px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.06);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 14px;
+}
+
+.infoLabel {
+  display: block;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.infoValue {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.infoValueHighlight {
+  color: #16a34a;
+}
+
+.infoNote {
+  display: block;
+  margin-top: 2px;
+  color: #8a91a0;
+  font-size: 11.5px;
+}
+
+.infoAddress {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.infoAddressIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--sky-dark);
+}
+
+.infoDisclaimer {
+  margin: 12px 0 0;
+  color: #9aa1ae;
+  font-size: 11px;
+}
+
+/* ===== History & Story ===== */
+.storyLead {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.storyList {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.storyItem {
+  position: relative;
+  padding: 0 0 16px 18px;
+}
+
+.storyItem:last-child {
+  padding-bottom: 0;
+}
+
+/* 타임라인 점과 선 */
+.storyItem::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sky);
+}
+
+.storyItem:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  bottom: 2px;
+  left: 3.5px;
+  width: 1px;
+  background: #cfe3f3;
+}
+
+.storyLabel {
+  display: block;
+  color: var(--sky-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.storyText {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-sub);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* ===== Nearby Places ===== */
+.nearbyList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 0 16px;
+}
+
+.nearbyCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.06);
+}
+
+.nearbyImage {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+}
+
+.nearbyBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.nearbyName {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nearbyDistance {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+.nearbyPin {
+  color: var(--sky-dark);
+}
+
+.nearbyHeart {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #b4bac5;
+}

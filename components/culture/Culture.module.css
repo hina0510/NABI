@@ -191,6 +191,10 @@
   box-shadow: 0 3px 12px rgba(20, 48, 91, 0.06);
 }
 
+.cardClickable {
+  cursor: pointer;
+}
+
 .cardImageWrap {
   position: relative;
 }
