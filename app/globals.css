@@ -1,0 +1,53 @@
+:root {
+  /* NABI brand */
+  --sky: #4aa8e0;
+  --sky-dark: #3897d0;
+  --navy: #14305b;
+  --ink: #0e1a33;
+
+  /* text */
+  --text-sub: #3f4756;
+  --text-muted: #6b7382;
+
+  /* surfaces */
+  --bg: #f7f8fd;
+  --surface: #ffffff;
+  --surface-tint: #edf2fc;
+  --chip-bg: #e3ebf8;
+  --line: #e5e9f0;
+
+  /* layout */
+  --app-max-width: 430px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100dvh;
+  background: #eceff6;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+}
