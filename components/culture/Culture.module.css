@@ -1,0 +1,371 @@
+/* ===== Layout ===== */
+.screen {
+  width: 100%;
+  max-width: var(--app-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  background: #f4f7fd;
+}
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 14px 0 10px;
+  background: #f4f7fd;
+}
+
+.headerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink);
+}
+
+.headerTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #1d8fd0;
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.heroImage {
+  aspect-ratio: 6 / 5;
+  max-height: 360px;
+  width: 100%;
+}
+
+.heroText {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 64px 16px 18px;
+  background: linear-gradient(180deg, rgba(10, 20, 38, 0) 0%, rgba(10, 20, 38, 0.6) 100%);
+  color: #fff;
+}
+
+.heroEyebrow {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.28);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+}
+
+.heroTitle {
+  margin: 8px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  white-space: pre-line;
+}
+
+.heroSub {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* ===== Category Tabs ===== */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin: 14px 16px 0;
+  padding: 6px;
+  border-radius: 28px;
+  background: #dfe9f7;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 4px 6px;
+  border-radius: 23px;
+  color: #2a3140;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tabActive {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* ===== Results ===== */
+.results {
+  padding: 0 16px;
+}
+
+.resultsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.resultsTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+.resultsCount {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sortButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 8px;
+  background: #e6edf7;
+  color: #3f4756;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* ===== Place Card ===== */
+.card {
+  padding: 12px 12px 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.06);
+}
+
+.cardImageWrap {
+  position: relative;
+}
+
+.cardImage {
+  aspect-ratio: 1.9 / 1;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.cardIndex {
+  position: absolute;
+  bottom: 8px;
+  left: 11px;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+
+.cardHeart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+}
+
+.cardBody {
+  padding: 12px 4px 0;
+}
+
+.cardRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cardName {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+}
+
+.cardLocal {
+  flex-shrink: 0;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.cardEn {
+  overflow: hidden;
+  color: #4b515f;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardDistance {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2px;
+  color: #1f6f9e;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.cardDesc {
+  margin: 6px 0 0;
+  color: #4b515f;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* ===== Route CTA ===== */
+.route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px 12px 12px 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #e4eefb 0%, #dbe8f8 100%);
+  text-align: left;
+}
+
+.routeThumb {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.routeText {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.routeTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.routeSparkle {
+  color: #1f8fc9;
+}
+
+.routeDesc {
+  color: #4b515f;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.routeArrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+}
+
+/* ===== Empty state (mock 콘텐츠가 없는 도시) ===== */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 32px 0;
+  text-align: center;
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #e0f2fe;
+  color: #1d8fd0;
+}
+
+.emptyTitle {
+  margin: 18px 0 0;
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.emptyText {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}

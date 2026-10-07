@@ -39,6 +39,14 @@ export function ChevronRightIcon({ size = 14, className }: IconProps) {
   );
 }
 
+export function ChevronLeftIcon({ size = 14, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.4} className={className} {...base}>
+      <path d="M15 5.5L8.5 12l6.5 6.5" />
+    </svg>
+  );
+}
+
 export function UserIcon({ size = 24, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2} className={className} {...base}>

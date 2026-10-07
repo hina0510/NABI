@@ -3,11 +3,12 @@
 import { useState } from "react";
 import EntryScreen from "@/components/home/EntryScreen";
 import HomeScreen from "@/components/home/HomeScreen";
+import CultureScreen from "@/components/culture/CultureScreen";
 import DestinationSelect from "@/components/destination/DestinationSelect";
 import { DEFAULT_DESTINATION } from "@/lib/mockDestinations";
 import type { Destination } from "@/types/destination";
 
-type View = "entry" | "destination" | "home";
+type View = "entry" | "destination" | "home" | "culture";
 
 export default function HomePage() {
   const [view, setView] = useState<View>("entry");
@@ -33,8 +34,21 @@ export default function HomePage() {
     );
   }
 
+  if (view === "culture") {
+    return <CultureScreen destination={destination} onBack={() => setView("home")} />;
+  }
+
   if (view === "home") {
-    return <HomeScreen destination={destination} onChangeDestination={() => openDestination("home")} />;
+    return (
+      <HomeScreen
+        destination={destination}
+        onChangeDestination={() => openDestination("home")}
+        onSelectTheme={(id) => {
+          // 현재는 Culture만 연결 (Nature / Food / Shopping은 UI only)
+          if (id === "culture") setView("culture");
+        }}
+      />
+    );
   }
 
   return (
