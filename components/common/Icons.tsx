@@ -73,6 +73,15 @@ export function ArrowDownRightIcon({ size = 16, className }: IconProps) {
   );
 }
 
+export function ArrowUpRightIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <path d="M6 18L18 6" />
+      <path d="M9 6h9v9" />
+    </svg>
+  );
+}
+
 export function ArrowRightIcon({ size = 18, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.4} className={className} {...base}>

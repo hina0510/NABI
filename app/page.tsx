@@ -11,6 +11,7 @@ import SavedListScreen from "@/components/saved/SavedListScreen";
 import RouteDetailScreen from "@/components/route/RouteDetailScreen";
 import ExploreCountryScreen from "@/components/explore/ExploreCountryScreen";
 import ExploreCityScreen from "@/components/explore/ExploreCityScreen";
+import ExploreThemeScreen from "@/components/explore/ExploreThemeScreen";
 import type { NavKey } from "@/components/common/BottomNav";
 import { DEFAULT_PROVINCE_ID, getDefaultSubAreaId, hasDetailMap } from "@/lib/exploreRegions";
 import { DEFAULT_DESTINATION } from "@/lib/mockDestinations";
@@ -31,7 +32,8 @@ type View =
   | "saved-list"
   | "route-detail"
   | "explore-country"
-  | "explore-city";
+  | "explore-city"
+  | "explore-theme";
 
 // Detail 화면에 보여줄 장소 + Detail을 연 곳 (Back을 누르면 그 화면으로 돌아간다)
 type DetailState =
@@ -45,6 +47,8 @@ export default function HomePage() {
   const [returnView, setReturnView] = useState<View>("entry");
   // Culture에서 선택한 탭 — Detail에서 돌아왔을 때 같은 탭을 보여주기 위해 여기서 관리
   const [cultureCategory, setCultureCategory] = useState<CultureCategoryId>("all");
+  // Culture 화면을 연 곳(Home 또는 Explore 테마 선택)으로 되돌아가기 위해 기억
+  const [cultureReturnView, setCultureReturnView] = useState<"home" | "explore-theme">("home");
   // Detail 화면에 보여줄 장소 (없으면 null)
   const [detail, setDetail] = useState<DetailState | null>(null);
 
@@ -124,9 +128,29 @@ export default function HomePage() {
         onSelect={(cityId) => setExploreCityIds((prev) => ({ ...prev, [exploreProvinceId]: cityId }))}
         onBack={() => setView("explore-country")}
         onExplore={(cityId) => {
-          // TODO: 지역별 테마 선택 화면(Culture / Nature / Food / Shopping) 구현 후 연결
-          // 예: setExploreCityId(cityId); setView("explore-theme");
-          void cityId;
+          // 선택한 지역의 테마 선택 화면으로 이동 (모든 지역 공통 화면)
+          setExploreCityIds((prev) => ({ ...prev, [exploreProvinceId]: cityId }));
+          setView("explore-theme");
+        }}
+        onNavigate={handleNavigate}
+      />
+    );
+  }
+
+  if (view === "explore-theme") {
+    return (
+      <ExploreThemeScreen
+        provinceId={exploreProvinceId}
+        cityId={exploreCityId}
+        // 선택한 시·도 / 지역은 그대로 유지한 채 상세 지도로 돌아간다.
+        onBack={() => setView("explore-city")}
+        onSelectTheme={(id) => {
+          // 현재는 Culture만 연결 (Nature / Food / Shopping은 준비 중 안내)
+          if (id !== "culture") return false;
+          setCultureCategory("all");
+          setCultureReturnView("explore-theme");
+          setView("culture");
+          return true;
         }}
         onNavigate={handleNavigate}
       />
@@ -210,7 +234,7 @@ export default function HomePage() {
     return (
       <CultureScreen
         destination={destination}
-        onBack={() => setView("home")}
+        onBack={() => setView(cultureReturnView)}
         category={cultureCategory}
         onCategoryChange={setCultureCategory}
         onSelectPlace={(place) => {
@@ -232,6 +256,7 @@ export default function HomePage() {
           // Home에서 새로 들어올 때는 항상 All 탭부터 시작
           if (id === "culture") {
             setCultureCategory("all");
+            setCultureReturnView("home");
             setView("culture");
           }
         }}
