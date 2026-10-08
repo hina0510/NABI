@@ -24,10 +24,31 @@ export interface SvgMapRegion {
   d: string;
 }
 
+// 원거리 섬 확대도 테두리 (표시만 하고 선택 대상이 아님)
+export interface MapInset extends MapBox {
+  id: string;
+  nameKo: string;
+  rx: number;
+}
+
+// 확대도 캡션 (표시만 하고 선택 대상이 아님)
+export interface MapNote extends MapLabel {
+  id: string;
+}
+
 export interface SvgMapData {
   viewBox: MapBox;
   contentBox: MapBox;
   regions: SvgMapRegion[];
+  insets?: MapInset[];
+  notes?: MapNote[];
+}
+
+// 시·도 상세 지도 목록 (lib/maps/provinceMaps.ts) — path 좌표 없이 가벼운 정보만
+export interface ProvinceMapEntry {
+  contentBox: MapBox;
+  regions: Pick<SvgMapRegion, "id" | "nameKo" | "code">[];
+  load: () => Promise<SvgMapData>;
 }
 
 // 선택 카드에 보여줄 영문 정보

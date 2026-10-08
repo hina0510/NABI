@@ -1,31 +1,59 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeftIcon, MoreVerticalIcon } from "@/components/common/Icons";
 import BottomNav, { type NavKey } from "@/components/common/BottomNav";
 import savedStyles from "@/components/saved/Saved.module.css";
-import { GYEONGGI_CITIES_MAP } from "@/lib/maps/gyeonggiCities";
-import { GYEONGGI_CITIES, findArea } from "@/lib/exploreRegions";
+import { PROVINCE_MAPS } from "@/lib/maps/provinceMaps";
+import { PROVINCES, findArea, getProvinceTexts, getSubAreas } from "@/lib/exploreRegions";
+import type { SvgMapData } from "@/types/explore";
 import RegionMap from "./RegionMap";
 import SelectionCard from "./SelectionCard";
 import styles from "./Explore.module.css";
 
 interface ExploreCityScreenProps {
-  selectedId: string;
+  provinceId: string; // 대한민국 지도에서 선택한 시·도
+  selectedId: string; // 이 시·도에서 선택한 하위 행정구역
   onSelect: (id: string) => void;
   onBack: () => void;
   onExplore: (cityId: string) => void;
   onNavigate?: (key: NavKey) => void;
 }
 
-// 경기도 시·군 선택 (현재 상세 지도가 준비된 시·도는 경기도뿐)
-export default function ExploreCityScreen({ selectedId, onSelect, onBack, onExplore, onNavigate }: ExploreCityScreenProps) {
-  const city = findArea(GYEONGGI_CITIES, selectedId);
+// 한 번 불러온 상세 지도는 다시 들어올 때 바로 보여준다.
+const loadedMaps = new Map<string, SvgMapData>();
+
+// 시·도 상세 지도 (16개 시·도 공통) — 시·군·구 / 읍·면·동 선택
+export default function ExploreCityScreen({ provinceId, selectedId, onSelect, onBack, onExplore, onNavigate }: ExploreCityScreenProps) {
+  const province = findArea(PROVINCES, provinceId);
+  const entry = PROVINCE_MAPS[province.id];
+  const areas = getSubAreas(province.id);
+  const area = findArea(areas, selectedId);
+  const texts = getProvinceTexts(province.id);
+  const [map, setMap] = useState<SvgMapData | null>(() => loadedMaps.get(province.id) ?? null);
 
   // 이전 화면의 스크롤 위치가 남지 않도록 맨 위에서 시작
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // 지도 데이터(path 좌표)는 이 화면에서 필요한 시·도만 불러온다.
+  useEffect(() => {
+    const cached = loadedMaps.get(province.id);
+    if (cached) {
+      setMap(cached);
+      return;
+    }
+    let cancelled = false;
+    setMap(null);
+    entry.load().then((data) => {
+      loadedMaps.set(province.id, data);
+      if (!cancelled) setMap(data);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [province.id, entry]);
 
   return (
     <div className={styles.screen}>
@@ -43,24 +71,35 @@ export default function ExploreCityScreen({ selectedId, onSelect, onBack, onExpl
 
       <main>
         <div className={styles.intro}>
-          <h1 className={styles.title}>Discover Gyeonggi-do</h1>
-          <p className={styles.subtitle}>Choose a city or county to explore.</p>
+          <h1 className={styles.title}>Discover {province.name}</h1>
+          <p className={styles.subtitle}>{texts.subtitle}</p>
         </div>
 
-        <RegionMap
-          map={GYEONGGI_CITIES_MAP}
-          selectedId={city.id}
-          onSelect={onSelect}
-          getRegionName={(id) => findArea(GYEONGGI_CITIES, id).name}
-          ariaLabel="Map of Gyeonggi-do"
-        />
+        {map ? (
+          <RegionMap
+            // 시·도가 바뀌면 확대 상태를 새로 시작
+            key={province.id}
+            map={map}
+            selectedId={area.id}
+            onSelect={onSelect}
+            getRegionName={(id) => findArea(areas, id).name}
+            ariaLabel={`Map of ${province.name}`}
+          />
+        ) : (
+          // 지도를 불러오는 동안 같은 크기의 빈 영역을 둬서 아래 카드가 움직이지 않게 한다. (+4 = RegionMap의 여백 PAD × 2)
+          <div
+            className={styles.mapArea}
+            style={{ aspectRatio: `${entry.contentBox.width + 4} / ${entry.contentBox.height + 4}` }}
+            aria-busy
+          />
+        )}
 
         <SelectionCard
-          eyebrow="SELECTED CITY"
-          title={city.name}
-          description="Gyeonggi-do, South Korea."
-          buttonLabel={`Explore ${city.shortName}`}
-          onClick={() => onExplore(city.id)}
+          eyebrow={texts.eyebrow}
+          title={area.name}
+          description={`${province.name}, South Korea.`}
+          buttonLabel={`Explore ${area.shortName}`}
+          onClick={() => onExplore(area.id)}
         />
       </main>
 

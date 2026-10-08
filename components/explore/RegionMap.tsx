@@ -212,6 +212,11 @@ export default function RegionMap({ map, selectedId, onSelect, getRegionName, ar
 
   const { scale, x, y } = transform;
   const zoomed = scale > 1.001;
+  // 선택한 지역의 라벨은 이웃 라벨에 가려지지 않도록 마지막에 그린다.
+  const labeledRegions = [
+    ...map.regions.filter((region) => region.label && region.id !== selectedId),
+    ...map.regions.filter((region) => region.label && region.id === selectedId),
+  ];
 
   return (
     <div className={styles.mapArea} style={{ aspectRatio: `${box.width} / ${box.height}` }}>
@@ -228,24 +233,58 @@ export default function RegionMap({ map, selectedId, onSelect, getRegionName, ar
         onPointerCancel={handlePointerEnd}
       >
         <g transform={`translate(${x} ${y}) scale(${scale})`}>
+          {/* 원거리 섬 확대도 테두리 — 표시만 하고 선택 대상이 아니다 (섬은 해당 지역 path에 포함) */}
+          {map.insets && (
+            <g className={styles.insets} aria-hidden>
+              {map.insets.map((inset) => (
+                <rect
+                  key={inset.id}
+                  x={inset.x}
+                  y={inset.y}
+                  width={inset.width}
+                  height={inset.height}
+                  rx={inset.rx}
+                  vectorEffect="non-scaling-stroke"
+                />
+              ))}
+            </g>
+          )}
           <g>{regionPaths}</g>
-          {/* 라벨은 확대해도 화면에서 같은 크기로 보이도록 글자 크기를 배율로 나눈다 */}
+          {/* 라벨은 확대해도 화면에서 같은 크기로 보이도록 글자 크기를 배율로 나눈다.
+              작은 지역에서 라벨이 경계 밖으로 넘쳐도 읽히도록 글자 둘레에 외곽선(stroke)을 둔다. */}
           <g className={styles.labels} aria-hidden>
-            {map.regions.map((region) =>
-              region.label ? (
+            {labeledRegions.map((region) => {
+              const label = region.label!;
+              const fontSize = label.fontSize / scale;
+              return (
                 <text
                   key={region.id}
-                  x={region.label.x}
-                  y={region.label.y}
-                  fontSize={region.label.fontSize / scale}
+                  x={label.x}
+                  y={label.y}
+                  fontSize={fontSize}
+                  strokeWidth={fontSize * 0.28}
                   className={`${styles.label} ${region.id === selectedId ? styles.labelSelected : ""}`}
                   textAnchor="middle"
                   dominantBaseline="central"
                 >
-                  {region.label.text}
+                  {label.text}
                 </text>
-              ) : null,
-            )}
+              );
+            })}
+            {/* 확대도 캡션 (예: 울릉도·독도) */}
+            {map.notes?.map((note) => (
+              <text
+                key={note.id}
+                x={note.x}
+                y={note.y}
+                fontSize={note.fontSize / scale}
+                className={styles.note}
+                textAnchor="middle"
+                dominantBaseline="central"
+              >
+                {note.text}
+              </text>
+            ))}
           </g>
         </g>
       </svg>

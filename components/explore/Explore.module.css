@@ -28,10 +28,13 @@
 }
 
 /* ===== Map ===== */
-/* 확대·이동은 이 영역 안에서만 일어난다. (aspect-ratio는 지도 크기에 맞춰 TSX에서 지정) */
+/* 확대·이동은 이 영역 안에서만 일어난다. (aspect-ratio는 지도 크기에 맞춰 TSX에서 지정)
+   대구·세종처럼 세로로 긴 지도는 높이를 제한하고, SVG가 비율을 유지한 채 전체를 보여준다. */
 .mapArea {
   position: relative;
   width: 100%;
+  max-height: max(520px, 62vh);
+  max-height: max(520px, 62dvh);
   margin-top: 14px;
   overflow: hidden;
 }
@@ -78,13 +81,33 @@
 
 .label {
   fill: #123a6a;
+  /* 글자 둘레 외곽선 — 라벨이 지역 경계 밖으로 넘쳐도 읽히도록 (두께는 TSX에서 지정) */
+  stroke: #d5ecff;
+  stroke-linejoin: round;
+  paint-order: stroke;
   font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-weight: 500;
 }
 
 .labelSelected {
   fill: #ffffff;
+  stroke: #123a6a;
   font-weight: 700;
+}
+
+/* 원거리 섬 확대도 테두리 · 캡션 (선택 대상 아님) */
+.insets {
+  fill: none;
+  stroke: #b7d4ee;
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+  pointer-events: none;
+}
+
+.note {
+  fill: #123a6a;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-weight: 500;
 }
 
 .resetButton {

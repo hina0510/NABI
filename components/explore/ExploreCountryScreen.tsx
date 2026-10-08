@@ -6,7 +6,7 @@ import { ChevronDownIcon, GlobeIcon, UserIcon } from "@/components/common/Icons"
 import BottomNav, { type NavKey } from "@/components/common/BottomNav";
 import homeStyles from "@/components/home/Home.module.css";
 import { KOREA_PROVINCES_MAP } from "@/lib/maps/koreaProvinces";
-import { PROVINCES, PROVINCES_WITH_DETAIL_MAP, findArea } from "@/lib/exploreRegions";
+import { PROVINCES, findArea, getProvinceTexts, hasDetailMap } from "@/lib/exploreRegions";
 import RegionMap from "./RegionMap";
 import SelectionCard from "./SelectionCard";
 import styles from "./Explore.module.css";
@@ -14,13 +14,14 @@ import styles from "./Explore.module.css";
 interface ExploreCountryScreenProps {
   selectedId: string;
   onSelect: (id: string) => void;
-  onExplore: (provinceId: string) => void; // 상세 지도가 있는 지역에서만 호출
+  onExplore: (provinceId: string) => void; // 선택한 시·도의 상세 지도로 이동
   onNavigate?: (key: NavKey) => void;
 }
 
 export default function ExploreCountryScreen({ selectedId, onSelect, onExplore, onNavigate }: ExploreCountryScreenProps) {
   const province = findArea(PROVINCES, selectedId);
-  const hasDetailMap = PROVINCES_WITH_DETAIL_MAP.includes(province.id);
+  // 16개 시·도 모두 상세 지도가 있다. (지도 데이터가 없는 경우에만 버튼 비활성)
+  const detailReady = hasDetailMap(province.id);
 
   // 다른 화면에서 스크롤한 위치가 남지 않도록 맨 위에서 시작
   useEffect(() => {
@@ -61,9 +62,9 @@ export default function ExploreCountryScreen({ selectedId, onSelect, onExplore, 
         <SelectionCard
           eyebrow="SELECTED REGION"
           title={province.name}
-          description={hasDetailMap ? "Explore cities and counties." : "Detailed map coming soon."}
-          buttonLabel={hasDetailMap ? `Explore ${province.shortName}` : "Coming soon"}
-          disabled={!hasDetailMap}
+          description={getProvinceTexts(province.id).countryDescription}
+          buttonLabel={`Explore ${province.shortName}`}
+          disabled={!detailReady}
           onClick={() => onExplore(province.id)}
         />
       </main>

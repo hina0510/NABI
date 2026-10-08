@@ -48,3 +48,15 @@
 5. 면적 0.1~0.15px² 미만의 아주 작은 섬은 생략 (단, 경상북도는 독도 유지를 위해 생략하지 않음)
 
 재생성: `python design/maps/source/build_maps.py design/maps/source/admdongkor-ver20260701/HangJeongDong_ver20260701.geojson design/maps`
+
+## 시·도별 상세 지도 (`source/build_region_maps.py`)
+
+경기도를 제외한 15개 시·도 상세 SVG(`*-districts.svg`, `*-cities.svg`, `sejong-towns.svg`). `build_maps.py`의 병합·단순화 함수를 그대로 사용한다.
+
+- 특별시·광역시: 자치구·군 / 도: 시·군(일반구는 시로 병합, 코드는 시 코드) / 전남광주: 시·군 + 옛 광주 5개 자치구
+- 세종: 하위 시·군·구가 없는 단층제이므로 읍·면·동 24개 (`data-code`는 10자리 행정동 코드)
+- 제주: 행정시 2개(제주시·서귀포시)
+- 원거리 섬은 비율을 유지한 확대도(`<g id="insets">`의 `rect` + `<g id="notes">` 캡션)로 배치: 울릉도·독도, 백령·대청도, 연평도, 격렬비열도, 어청도, 흑산도·홍도, 가거도·태도, 추자도
+- 기본 선택(#123A6A) 지역은 코드순 첫 번째 지역
+
+재생성: `python design/maps/source/build_region_maps.py design/maps/source/admdongkor-ver20260701/HangJeongDong_ver20260701.geojson design/maps`

@@ -12,7 +12,7 @@ import RouteDetailScreen from "@/components/route/RouteDetailScreen";
 import ExploreCountryScreen from "@/components/explore/ExploreCountryScreen";
 import ExploreCityScreen from "@/components/explore/ExploreCityScreen";
 import type { NavKey } from "@/components/common/BottomNav";
-import { DEFAULT_CITY_ID, DEFAULT_PROVINCE_ID } from "@/lib/exploreRegions";
+import { DEFAULT_PROVINCE_ID, getDefaultSubAreaId, hasDetailMap } from "@/lib/exploreRegions";
 import { DEFAULT_DESTINATION } from "@/lib/mockDestinations";
 import { getSavedDetailLabels } from "@/lib/mockSaved";
 import { getRoute } from "@/lib/mockRoutes";
@@ -59,9 +59,12 @@ export default function HomePage() {
   const [savedMainScrollY, setSavedMainScrollY] = useState(0);
   // Route Detail에 보여줄 Route
   const [selectedRouteId, setSelectedRouteId] = useState<string | undefined>(undefined);
-  // Explore — 지도에서 선택한 시·도 / 시·군 (상세 지도에서 돌아와도 유지)
+  // Explore — 지도에서 선택한 시·도 / 시·군·구 (상세 지도에서 돌아와도 유지)
   const [exploreProvinceId, setExploreProvinceId] = useState(DEFAULT_PROVINCE_ID);
-  const [exploreCityId, setExploreCityId] = useState(DEFAULT_CITY_ID);
+  // 하위 행정구역 선택은 시·도별로 따로 기억한다. (서울에서 고른 구가 부산 지도에 적용되지 않도록)
+  // 기록이 없는 시·도는 SVG의 첫 번째 지역(경기도는 수원시)을 기본 선택으로 사용
+  const [exploreCityIds, setExploreCityIds] = useState<Record<string, string>>({});
+  const exploreCityId = exploreCityIds[exploreProvinceId] ?? getDefaultSubAreaId(exploreProvinceId);
 
   function openDestination(from: View) {
     setReturnView(from);
@@ -74,7 +77,7 @@ export default function HomePage() {
     if (key === "explore") {
       // 메뉴로 새로 들어올 때는 대한민국 지도 + 기본 선택(경기도 / 수원시)부터 시작
       setExploreProvinceId(DEFAULT_PROVINCE_ID);
-      setExploreCityId(DEFAULT_CITY_ID);
+      setExploreCityIds({});
       setView("explore-country");
     }
     if (key === "saved") {
@@ -105,8 +108,8 @@ export default function HomePage() {
         selectedId={exploreProvinceId}
         onSelect={setExploreProvinceId}
         onExplore={(provinceId) => {
-          // 상세 지도가 준비된 경기도만 시·군 화면으로 이동 (다른 시·도는 카드 버튼이 비활성)
-          if (provinceId === "gyeonggi") setView("explore-city");
+          // 선택한 시·도의 상세 지도로 이동 (16개 시·도 공통 화면)
+          if (hasDetailMap(provinceId)) setView("explore-city");
         }}
         onNavigate={handleNavigate}
       />
@@ -116,8 +119,9 @@ export default function HomePage() {
   if (view === "explore-city") {
     return (
       <ExploreCityScreen
+        provinceId={exploreProvinceId}
         selectedId={exploreCityId}
-        onSelect={setExploreCityId}
+        onSelect={(cityId) => setExploreCityIds((prev) => ({ ...prev, [exploreProvinceId]: cityId }))}
         onBack={() => setView("explore-country")}
         onExplore={(cityId) => {
           // TODO: 지역별 테마 선택 화면(Culture / Nature / Food / Shopping) 구현 후 연결
