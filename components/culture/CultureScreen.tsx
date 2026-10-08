@@ -5,7 +5,7 @@ import type { Destination } from "@/types/destination";
 import type { CultureCategoryId, CulturePlace } from "@/types/culture";
 import { CULTURE_CONTENT, getCulturePlaces } from "@/lib/mockCulture";
 import { ChevronDownIcon, ChevronLeftIcon, HeartIcon, LandmarkIcon } from "@/components/common/Icons";
-import BottomNav from "@/components/common/BottomNav";
+import BottomNav, { type NavKey } from "@/components/common/BottomNav";
 import CultureHero from "./CultureHero";
 import CultureTabs from "./CultureTabs";
 import CulturePlaceCard from "./CulturePlaceCard";
@@ -19,6 +19,7 @@ interface CultureScreenProps {
   category: CultureCategoryId;
   onCategoryChange: (category: CultureCategoryId) => void;
   onSelectPlace: (place: CulturePlace) => void;
+  onNavigate?: (key: NavKey) => void;
 }
 
 export default function CultureScreen({
@@ -27,6 +28,7 @@ export default function CultureScreen({
   category,
   onCategoryChange,
   onSelectPlace,
+  onNavigate,
 }: CultureScreenProps) {
   // Home에서 스크롤한 위치가 남지 않도록 화면 진입 시 맨 위로 이동
   useEffect(() => {
@@ -100,7 +102,7 @@ export default function CultureScreen({
         </main>
       )}
 
-      <BottomNav active="explore" />
+      <BottomNav active="explore" onNavigate={onNavigate} />
     </div>
   );
 }

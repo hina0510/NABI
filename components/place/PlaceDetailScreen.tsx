@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import type { CulturePlace } from "@/types/culture";
+import type { HomePlace } from "@/types/home";
+import type { CultureTopicId } from "@/types/culture";
 import { getCulturePlaceDetail, getCultureTopicLabel, getNearbyCulturePlaces } from "@/lib/mockCulture";
 import { ChevronRightIcon, HeartIcon, MapPinIcon, RouteIcon, StarIcon } from "@/components/common/Icons";
 import PlaceImage from "@/components/common/PlaceImage";
-import BottomNav from "@/components/common/BottomNav";
+import BottomNav, { type NavKey } from "@/components/common/BottomNav";
 import PlaceHero from "./PlaceHero";
 import PlaceAbout from "./PlaceAbout";
 import PlaceTravelInfo from "./PlaceTravelInfo";
@@ -14,11 +15,22 @@ import PlaceNearby from "./PlaceNearby";
 import styles from "./PlaceDetail.module.css";
 
 interface PlaceDetailScreenProps {
-  place: CulturePlace;
+  // CulturePlace(topic 있음)와 Saved의 일반 장소(topic 없음)를 모두 받는다.
+  place: HomePlace & { topic?: CultureTopicId };
   onBack: () => void;
+  // 상단 chip 문구. 없으면 Culture chip(Culture · History 등)을 표시한다.
+  labels?: string[];
+  activeNav?: NavKey;
+  onNavigate?: (key: NavKey) => void;
 }
 
-export default function PlaceDetailScreen({ place, onBack }: PlaceDetailScreenProps) {
+export default function PlaceDetailScreen({
+  place,
+  onBack,
+  labels,
+  activeNav = "explore",
+  onNavigate,
+}: PlaceDetailScreenProps) {
   // Culture에서 스크롤한 위치가 남지 않도록 화면 진입 시 맨 위로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,6 +40,7 @@ export default function PlaceDetailScreen({ place, onBack }: PlaceDetailScreenPr
   const detail = getCulturePlaceDetail(place.id);
   const nearby = detail ? getNearbyCulturePlaces(detail) : [];
   const intro = detail?.intro ?? place.description;
+  const chips = labels ?? (place.topic ? ["Culture", getCultureTopicLabel(place.topic)] : []);
 
   return (
     <div className={styles.screen}>
@@ -41,10 +54,15 @@ export default function PlaceDetailScreen({ place, onBack }: PlaceDetailScreenPr
       <main>
         {/* ===== Place Identity ===== */}
         <div className={styles.identity}>
-          <div className={styles.chips}>
-            <span className={`${styles.chip} ${styles.chipPrimary}`}>Culture</span>
-            <span className={styles.chip}>{getCultureTopicLabel(place.topic)}</span>
-          </div>
+          {chips.length > 0 && (
+            <div className={styles.chips}>
+              {chips.map((chip, index) => (
+                <span key={chip} className={`${styles.chip} ${index === 0 ? styles.chipPrimary : ""}`}>
+                  {chip}
+                </span>
+              ))}
+            </div>
+          )}
           <h1 className={styles.title}>{place.name}</h1>
           {place.localName && <p className={styles.localName}>{place.localName}</p>}
 
@@ -117,7 +135,7 @@ export default function PlaceDetailScreen({ place, onBack }: PlaceDetailScreenPr
         )}
       </main>
 
-      <BottomNav active="explore" />
+      <BottomNav active={activeNav} onNavigate={onNavigate} />
     </div>
   );
 }

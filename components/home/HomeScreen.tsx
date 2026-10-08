@@ -3,7 +3,7 @@ import type { Destination } from "@/types/destination";
 import type { ThemeId } from "@/types/home";
 import { HOME_CONTENT } from "@/lib/mockHome";
 import { ChevronDownIcon, GlobeIcon, UserIcon } from "@/components/common/Icons";
-import BottomNav from "@/components/common/BottomNav";
+import BottomNav, { type NavKey } from "@/components/common/BottomNav";
 import HomeHero from "./HomeHero";
 import TodaysPick from "./TodaysPick";
 import JustWander from "./JustWander";
@@ -16,9 +16,10 @@ interface HomeScreenProps {
   destination: Destination;
   onChangeDestination: () => void;
   onSelectTheme?: (id: ThemeId) => void;
+  onNavigate?: (key: NavKey) => void;
 }
 
-export default function HomeScreen({ destination, onChangeDestination, onSelectTheme }: HomeScreenProps) {
+export default function HomeScreen({ destination, onChangeDestination, onSelectTheme, onNavigate }: HomeScreenProps) {
   const { country, city } = destination;
 
   // 선택한 Destination에서 화면에 표시할 이름을 한 번만 계산해 하위 컴포넌트로 전달한다.
@@ -62,7 +63,7 @@ export default function HomeScreen({ destination, onChangeDestination, onSelectT
         )}
       </main>
 
-      <BottomNav active="home" />
+      <BottomNav active="home" onNavigate={onNavigate} />
     </div>
   );
 }

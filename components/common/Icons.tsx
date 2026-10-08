@@ -256,6 +256,24 @@ export function RouteIcon({ size = 18, className }: IconProps) {
   );
 }
 
+export function PlusIcon({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.6} className={className} {...base}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+export function MoreVerticalIcon({ size = 22, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+      <circle cx="12" cy="5.5" r="1.9" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.9" fill="currentColor" />
+      <circle cx="12" cy="18.5" r="1.9" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function ImageIcon({ size = 28, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={1.6} className={className} {...base}>
