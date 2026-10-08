@@ -16,7 +16,7 @@ const ITEMS: { key: NavKey; label: string; Icon: typeof HomeIcon }[] = [
   { key: "my", label: "My", Icon: UserIcon },
 ];
 
-// 현재는 Home / Saved만 연결 (Explore / My 페이지 연결은 다음 단계)
+// 현재는 Home / Explore / Saved 연결 (My 페이지 연결은 다음 단계)
 export default function BottomNav({ active, onNavigate }: BottomNavProps) {
   return (
     <nav className={styles.nav}>

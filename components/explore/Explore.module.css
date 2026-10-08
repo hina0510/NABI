@@ -1,0 +1,183 @@
+/* ===== Layout ===== */
+.screen {
+  width: 100%;
+  max-width: var(--app-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  background: var(--bg);
+}
+
+.intro {
+  padding: 22px 24px 0;
+}
+
+.title {
+  margin: 0;
+  color: var(--navy);
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ===== Map ===== */
+/* 확대·이동은 이 영역 안에서만 일어난다. (aspect-ratio는 지도 크기에 맞춰 TSX에서 지정) */
+.mapArea {
+  position: relative;
+  width: 100%;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.mapSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none; /* 브라우저 기본 스크롤·확대 대신 지도 제스처 사용 */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.region {
+  fill: #d5ecff;
+  stroke: #ffffff;
+  stroke-linejoin: round;
+  cursor: pointer;
+  outline: none;
+  transition: fill 0.18s ease;
+}
+
+@media (hover: hover) {
+  .region:hover {
+    fill: #bfe0fb;
+  }
+}
+
+.region:focus-visible {
+  fill: #a9d5f8;
+}
+
+.region.regionSelected,
+.region.regionSelected:hover,
+.region.regionSelected:focus-visible {
+  fill: #123a6a;
+}
+
+.labels {
+  pointer-events: none;
+}
+
+.label {
+  fill: #123a6a;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-weight: 500;
+}
+
+.labelSelected {
+  fill: #ffffff;
+  font-weight: 700;
+}
+
+.resetButton {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 12px 0 10px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--navy);
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.14);
+}
+
+/* ===== Selection card ===== */
+.card {
+  margin: 18px 16px 0;
+  padding: 20px 20px 22px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(20, 48, 91, 0.1);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardText {
+  min-width: 0;
+}
+
+.cardEyebrow {
+  margin: 0;
+  color: var(--sky);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+}
+
+.cardTitle {
+  margin: 6px 0 0;
+  color: var(--navy);
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.cardDesc {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+
+.cardPin {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e6f3fc;
+  color: var(--sky);
+}
+
+.cardButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 52px;
+  margin-top: 20px;
+  border-radius: 26px;
+  background: #123a6a;
+  color: #ffffff;
+  font-size: 15.5px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(18, 58, 106, 0.22);
+}
+
+.cardButton:disabled {
+  background: var(--chip-bg);
+  color: #7d8aa0;
+  box-shadow: none;
+  cursor: default;
+}

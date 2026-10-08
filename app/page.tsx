@@ -9,7 +9,10 @@ import PlaceDetailScreen from "@/components/place/PlaceDetailScreen";
 import SavedMainScreen, { type SavedTab } from "@/components/saved/SavedMainScreen";
 import SavedListScreen from "@/components/saved/SavedListScreen";
 import RouteDetailScreen from "@/components/route/RouteDetailScreen";
+import ExploreCountryScreen from "@/components/explore/ExploreCountryScreen";
+import ExploreCityScreen from "@/components/explore/ExploreCityScreen";
 import type { NavKey } from "@/components/common/BottomNav";
+import { DEFAULT_CITY_ID, DEFAULT_PROVINCE_ID } from "@/lib/exploreRegions";
 import { DEFAULT_DESTINATION } from "@/lib/mockDestinations";
 import { getSavedDetailLabels } from "@/lib/mockSaved";
 import { getRoute } from "@/lib/mockRoutes";
@@ -18,7 +21,17 @@ import type { CultureCategoryId } from "@/types/culture";
 import type { SavedFilterId, SavedPlace } from "@/types/saved";
 import type { RouteFilter } from "@/types/route";
 
-type View = "entry" | "destination" | "home" | "culture" | "place-detail" | "saved" | "saved-list" | "route-detail";
+type View =
+  | "entry"
+  | "destination"
+  | "home"
+  | "culture"
+  | "place-detail"
+  | "saved"
+  | "saved-list"
+  | "route-detail"
+  | "explore-country"
+  | "explore-city";
 
 // Detail 화면에 보여줄 장소 + Detail을 연 곳 (Back을 누르면 그 화면으로 돌아간다)
 type DetailState =
@@ -46,15 +59,24 @@ export default function HomePage() {
   const [savedMainScrollY, setSavedMainScrollY] = useState(0);
   // Route Detail에 보여줄 Route
   const [selectedRouteId, setSelectedRouteId] = useState<string | undefined>(undefined);
+  // Explore — 지도에서 선택한 시·도 / 시·군 (상세 지도에서 돌아와도 유지)
+  const [exploreProvinceId, setExploreProvinceId] = useState(DEFAULT_PROVINCE_ID);
+  const [exploreCityId, setExploreCityId] = useState(DEFAULT_CITY_ID);
 
   function openDestination(from: View) {
     setReturnView(from);
     setView("destination");
   }
 
-  // BottomNav — 현재는 Home / Saved만 연결 (Explore / My는 다음 단계)
+  // BottomNav — 현재는 Home / Explore / Saved 연결 (My는 다음 단계)
   function handleNavigate(key: NavKey) {
     if (key === "home") setView("home");
+    if (key === "explore") {
+      // 메뉴로 새로 들어올 때는 대한민국 지도 + 기본 선택(경기도 / 수원시)부터 시작
+      setExploreProvinceId(DEFAULT_PROVINCE_ID);
+      setExploreCityId(DEFAULT_CITY_ID);
+      setView("explore-country");
+    }
     if (key === "saved") {
       // 메뉴로 새로 들어올 때는 Saved 탭 맨 위부터 시작
       setSavedTab("saved");
@@ -73,6 +95,36 @@ export default function HomePage() {
           setDestination(selected);
           setView(returnView);
         }}
+      />
+    );
+  }
+
+  if (view === "explore-country") {
+    return (
+      <ExploreCountryScreen
+        selectedId={exploreProvinceId}
+        onSelect={setExploreProvinceId}
+        onExplore={(provinceId) => {
+          // 상세 지도가 준비된 경기도만 시·군 화면으로 이동 (다른 시·도는 카드 버튼이 비활성)
+          if (provinceId === "gyeonggi") setView("explore-city");
+        }}
+        onNavigate={handleNavigate}
+      />
+    );
+  }
+
+  if (view === "explore-city") {
+    return (
+      <ExploreCityScreen
+        selectedId={exploreCityId}
+        onSelect={setExploreCityId}
+        onBack={() => setView("explore-country")}
+        onExplore={(cityId) => {
+          // TODO: 지역별 테마 선택 화면(Culture / Nature / Food / Shopping) 구현 후 연결
+          // 예: setExploreCityId(cityId); setView("explore-theme");
+          void cityId;
+        }}
+        onNavigate={handleNavigate}
       />
     );
   }
