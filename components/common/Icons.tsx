@@ -274,6 +274,104 @@ export function MoreVerticalIcon({ size = 22, className }: IconProps) {
   );
 }
 
+export function CalendarIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2} className={className} {...base}>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+    </svg>
+  );
+}
+
+export function ClockIcon({ size = 14, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.2 2" />
+    </svg>
+  );
+}
+
+export function MapIcon({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+      <path fill="currentColor" d="M9 4.2L3.7 6.1a1 1 0 00-.7.9v12.4c0 .7.7 1.2 1.3.9L9 18.6zM10.5 4.3v14.4l3 1.5V5.8zM15 5.4v14.4l5.3-1.9a1 1 0 00.7-.9V4.6c0-.7-.7-1.2-1.3-.9z" />
+    </svg>
+  );
+}
+
+// ===== Route Detail =====
+
+export function ListEditIcon({ size = 20, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <path d="M4 6h13M4 11h9M4 16h5" />
+      <path d="M13.5 20.5l.6-2.8 5.2-5.2a1.5 1.5 0 012.2 2.2l-5.2 5.2z" />
+    </svg>
+  );
+}
+
+export function MapPinPlusIcon({ size = 20, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <path d="M18.5 11.5c-.6 4.6-6.5 9.8-6.5 9.8s-6.5-6-6.5-11.6a6.5 6.5 0 017.6-6.4" />
+      <path d="M18.5 2.5v6M15.5 5.5h6" />
+      <circle cx="12" cy="10" r="2.3" />
+    </svg>
+  );
+}
+
+export function OptimizeIcon({ size = 20, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <path d="M12 21v-7.5L5 6.5M12 13.5l7-7" />
+      <path d="M4.5 11V6h5M19.5 11V6h-5" />
+    </svg>
+  );
+}
+
+export function WalkIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.2} className={className} {...base}>
+      <circle cx="13" cy="4.3" r="1.8" fill="currentColor" stroke="none" />
+      <path d="M9 21l2.6-6.3L14 17v4M11.6 14.7l1.2-6.2-3.3 1.6-1.3 3.3M12.8 8.5l1.8 3.2 3 1.3" />
+    </svg>
+  );
+}
+
+export function BusIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.1} className={className} {...base}>
+      <rect x="4.5" y="3" width="15" height="15" rx="3" />
+      <path d="M4.5 11h15M7.5 18v2.5M16.5 18v2.5" />
+      <circle cx="8" cy="14.5" r=".9" fill="currentColor" />
+      <circle cx="16" cy="14.5" r=".9" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function SubwayIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.1} className={className} {...base}>
+      <rect x="5.5" y="2.5" width="13" height="15" rx="4" />
+      <path d="M5.5 10h13M8 21.5l2-4M16 21.5l-2-4" />
+      <circle cx="9" cy="13.8" r=".9" fill="currentColor" />
+      <circle cx="15" cy="13.8" r=".9" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function CarIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={2.1} className={className} {...base}>
+      <path d="M3.5 16.5v-4l2-5.2A2 2 0 017.4 6h9.2a2 2 0 011.9 1.3l2 5.2v4z" />
+      <path d="M3.5 12.5h17M5.5 16.5v2.5M18.5 16.5v2.5" />
+      <circle cx="7.5" cy="14.5" r=".9" fill="currentColor" />
+      <circle cx="16.5" cy="14.5" r=".9" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function ImageIcon({ size = 28, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" strokeWidth={1.6} className={className} {...base}>

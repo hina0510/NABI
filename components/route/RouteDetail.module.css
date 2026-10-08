@@ -1,0 +1,484 @@
+/* ===== Layout ===== */
+.screen {
+  width: 100%;
+  max-width: var(--app-max-width);
+  min-height: 100dvh;
+  margin: 0 auto;
+  /* 하단 CTA에 내용이 가려지지 않도록 여백 확보 */
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  background: var(--bg);
+}
+
+.body {
+  padding: 14px 16px 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ===== Title ===== */
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iconButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #2c3443;
+}
+
+.moreHorizontal {
+  transform: rotate(90deg);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.metaIcon {
+  flex-shrink: 0;
+  color: #1f5f8f;
+}
+
+.metaUnset {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.metaDot {
+  color: #b3bac6;
+  font-size: 10px;
+}
+
+.metaMuted {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.metaPlaces {
+  color: #1f6f9e;
+  font-weight: 700;
+}
+
+/* ===== Map (mock) ===== */
+.map {
+  position: relative;
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #dce8fb;
+  aspect-ratio: 358 / 256;
+}
+
+.mapSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mapMarkerText {
+  fill: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.mapEmpty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+.mapCard {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 60%;
+  padding: 6px 12px 6px 6px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(20, 48, 91, 0.12);
+}
+
+.mapCardThumb {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #d9ebf8 0%, #b9d7ee 100%);
+  color: #1f5f8f;
+}
+
+.mapCardText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mapCardLabel {
+  color: #1f6f9e;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.mapCardTitle {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mapTotal {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(20, 48, 91, 0.1);
+}
+
+.mapTotalDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sky);
+}
+
+/* ===== Day tabs ===== */
+.dayTabs {
+  display: flex;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 4px;
+  overflow-x: auto;
+  border-radius: 22px;
+  background: #e3ebf8;
+  scrollbar-width: none;
+}
+
+.dayTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.dayTab {
+  flex: 1 0 72px;
+  height: 36px;
+  border-radius: 18px;
+  color: #3f4756;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dayTabActive {
+  background: #1f5f8f;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(31, 95, 143, 0.3);
+}
+
+/* ===== Timeline ===== */
+.timeline {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stopRow {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.stopNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: #1f5f8f;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.stopCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px 30px 14px 14px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.07);
+  cursor: pointer;
+}
+
+.stopCard:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 2px;
+}
+
+.stopBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.stopName {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stopLocal {
+  margin: 2px 0 0;
+  color: #4b515f;
+  font-size: 13px;
+}
+
+.stopTime {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 6px 0 0;
+  color: #1f5f8f;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stopTimeUnset {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.stopImage {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+}
+
+.stopMore {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 36px;
+  color: #2c3443;
+  transform: translateY(-50%);
+}
+
+/* 장소 사이 이동 정보 */
+.transportRow {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 72px;
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.rail::before {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: #9fd0ef;
+  content: "";
+}
+
+.railDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sky);
+}
+
+.transportChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  height: 26px;
+  padding: 0 11px;
+  border-radius: 13px;
+  background: #e3ebf8;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.transportIcon {
+  color: #1f5f8f;
+}
+
+.transportTime {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.transportDot {
+  color: #9aa2b1;
+}
+
+/* Day에 장소가 없을 때 */
+.dayEmpty {
+  margin-top: 18px;
+  padding: 28px 20px;
+  border: 1.5px dashed #c6d5ec;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.dayEmptyTitle {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dayEmptyText {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ===== Bottom CTA ===== */
+.ctaBar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: 16px 16px max(14px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(247, 248, 253, 0) 0%, var(--bg) 35%);
+}
+
+.ctaSecondary,
+.ctaPrimary {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 50px;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ctaSecondary {
+  background: #fff;
+  color: #1f5f8f;
+  box-shadow: 0 3px 12px rgba(20, 48, 91, 0.1);
+}
+
+.ctaPrimary {
+  background: #1f5f8f;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(31, 95, 143, 0.3);
+}
+
+/* ===== 준비 중 안내 (toast) ===== */
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  left: 16px;
+  z-index: 30;
+  max-width: calc(var(--app-max-width) - 32px);
+  margin: 0 auto;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(14, 26, 51, 0.9);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(14, 26, 51, 0.2);
+}

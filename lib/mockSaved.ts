@@ -54,7 +54,8 @@ export const SAVED_REGIONS: SavedRegion[] = [
 ];
 
 // 기존 mock 데이터에서 id로 장소를 찾는다. (Culture 장소를 먼저 찾아 topic 정보를 유지)
-function findPlace(placeId: string): SavedPlace["place"] | undefined {
+// Route 일정(lib/mockRoutes.ts)에서도 같은 장소 데이터를 재사용한다.
+export function findPlace(placeId: string): SavedPlace["place"] | undefined {
   const culturePlaces = Object.values(CULTURE_CONTENT).flatMap((content) => content.places);
   const homePlaces = Object.values(HOME_CONTENT).flatMap((content) => [
     ...content.todaysPicks,

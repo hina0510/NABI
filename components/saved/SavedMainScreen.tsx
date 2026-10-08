@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import { SAVED_REGIONS } from "@/lib/mockSaved";
 import {
@@ -9,29 +9,49 @@ import {
   ChevronRightIcon,
   GlobeIcon,
   HeartIcon,
+  MapIcon,
   PlusIcon,
-  RouteIcon,
   UserIcon,
 } from "@/components/common/Icons";
 import PlaceImage from "@/components/common/PlaceImage";
 import BottomNav, { type NavKey } from "@/components/common/BottomNav";
+import type { Route, RouteFilter } from "@/types/route";
 import homeStyles from "@/components/home/Home.module.css";
+import RouteMain from "./RouteMain";
 import styles from "./Saved.module.css";
 
 interface SavedMainScreenProps {
   selectedRegionId: string; // Selected 배지를 표시할 지역
   onSelectRegion: (regionId: string) => void;
+  // Saved / Route 탭, Route 필터, 스크롤 위치는 부모(page.tsx)가 기억한다 → Route Detail에서 돌아와도 유지됨
+  tab: SavedTab;
+  onTabChange: (tab: SavedTab) => void;
+  routeFilter: RouteFilter;
+  onRouteFilterChange: (filter: RouteFilter) => void;
+  initialScrollY: number;
+  selectedRouteId?: string; // 마지막으로 연 Route (선택 테두리 표시)
+  onSelectRoute: (route: Route) => void;
   onNavigate?: (key: NavKey) => void;
 }
 
-type SavedTab = "saved" | "route";
+export type SavedTab = "saved" | "route";
 
-export default function SavedMainScreen({ selectedRegionId, onSelectRegion, onNavigate }: SavedMainScreenProps) {
-  // Route 탭은 아직 준비 중 → 이 화면 안에서만 탭 상태를 관리한다.
-  const [tab, setTab] = useState<SavedTab>("saved");
-
+export default function SavedMainScreen({
+  selectedRegionId,
+  onSelectRegion,
+  tab,
+  onTabChange,
+  routeFilter,
+  onRouteFilterChange,
+  initialScrollY,
+  selectedRouteId,
+  onSelectRoute,
+  onNavigate,
+}: SavedMainScreenProps) {
+  // 처음 진입 시 맨 위, Route Detail에서 돌아왔을 때는 이전 스크롤 위치로 이동
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, initialScrollY);
+    // 화면이 처음 그려질 때 한 번만 실행한다.
   }, []);
 
   const selectedRegion = SAVED_REGIONS.find((region) => region.id === selectedRegionId) ?? SAVED_REGIONS[0];
@@ -55,7 +75,7 @@ export default function SavedMainScreen({ selectedRegionId, onSelectRegion, onNa
 
       <main className={styles.body}>
         <p className={styles.eyebrow}>NABI TRAVEL</p>
-        <h1 className={styles.pageTitle}>Saved</h1>
+        <h1 className={styles.pageTitle}>{tab === "saved" ? "Saved" : "Route"}</h1>
 
         <div className={styles.segment} role="tablist">
           <button
@@ -63,7 +83,7 @@ export default function SavedMainScreen({ selectedRegionId, onSelectRegion, onNa
             role="tab"
             aria-selected={tab === "saved"}
             className={`${styles.segmentItem} ${tab === "saved" ? styles.segmentActive : ""}`}
-            onClick={() => setTab("saved")}
+            onClick={() => onTabChange("saved")}
           >
             <HeartIcon size={17} className={styles.filledIcon} />
             Saved
@@ -73,9 +93,9 @@ export default function SavedMainScreen({ selectedRegionId, onSelectRegion, onNa
             role="tab"
             aria-selected={tab === "route"}
             className={`${styles.segmentItem} ${tab === "route" ? styles.segmentActive : ""}`}
-            onClick={() => setTab("route")}
+            onClick={() => onTabChange("route")}
           >
-            <RouteIcon size={17} />
+            <MapIcon size={17} />
             Route
           </button>
         </div>
@@ -122,13 +142,12 @@ export default function SavedMainScreen({ selectedRegionId, onSelectRegion, onNa
             </button>
           </>
         ) : (
-          <div className={styles.empty}>
-            <span className={styles.emptyIcon}>
-              <RouteIcon size={28} />
-            </span>
-            <p className={styles.emptyTitle}>Routes are coming soon</p>
-            <p className={styles.emptyText}>저장한 장소로 여행 경로를 만드는 기능을 준비하고 있어요.</p>
-          </div>
+          <RouteMain
+            selectedRouteId={selectedRouteId}
+            onSelectRoute={onSelectRoute}
+            filter={routeFilter}
+            onFilterChange={onRouteFilterChange}
+          />
         )}
       </main>
 

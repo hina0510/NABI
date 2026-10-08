@@ -6,16 +6,19 @@ import HomeScreen from "@/components/home/HomeScreen";
 import CultureScreen from "@/components/culture/CultureScreen";
 import DestinationSelect from "@/components/destination/DestinationSelect";
 import PlaceDetailScreen from "@/components/place/PlaceDetailScreen";
-import SavedMainScreen from "@/components/saved/SavedMainScreen";
+import SavedMainScreen, { type SavedTab } from "@/components/saved/SavedMainScreen";
 import SavedListScreen from "@/components/saved/SavedListScreen";
+import RouteDetailScreen from "@/components/route/RouteDetailScreen";
 import type { NavKey } from "@/components/common/BottomNav";
 import { DEFAULT_DESTINATION } from "@/lib/mockDestinations";
 import { getSavedDetailLabels } from "@/lib/mockSaved";
+import { getRoute } from "@/lib/mockRoutes";
 import type { Destination } from "@/types/destination";
 import type { CultureCategoryId } from "@/types/culture";
 import type { SavedFilterId, SavedPlace } from "@/types/saved";
+import type { RouteFilter } from "@/types/route";
 
-type View = "entry" | "destination" | "home" | "culture" | "place-detail" | "saved" | "saved-list";
+type View = "entry" | "destination" | "home" | "culture" | "place-detail" | "saved" | "saved-list" | "route-detail";
 
 // Detail 화면에 보여줄 장소 + Detail을 연 곳 (Back을 누르면 그 화면으로 돌아간다)
 type DetailState =
@@ -37,6 +40,12 @@ export default function HomePage() {
   const [savedQuery, setSavedQuery] = useState("");
   const [savedFilter, setSavedFilter] = useState<SavedFilterId>("all");
   const [savedScrollY, setSavedScrollY] = useState(0);
+  // Saved Main — Saved / Route 탭, Route 필터, 스크롤 위치 (Route Detail에서 돌아와도 유지)
+  const [savedTab, setSavedTab] = useState<SavedTab>("saved");
+  const [routeFilter, setRouteFilter] = useState<RouteFilter>("all");
+  const [savedMainScrollY, setSavedMainScrollY] = useState(0);
+  // Route Detail에 보여줄 Route
+  const [selectedRouteId, setSelectedRouteId] = useState<string | undefined>(undefined);
 
   function openDestination(from: View) {
     setReturnView(from);
@@ -46,7 +55,13 @@ export default function HomePage() {
   // BottomNav — 현재는 Home / Saved만 연결 (Explore / My는 다음 단계)
   function handleNavigate(key: NavKey) {
     if (key === "home") setView("home");
-    if (key === "saved") setView("saved");
+    if (key === "saved") {
+      // 메뉴로 새로 들어올 때는 Saved 탭 맨 위부터 시작
+      setSavedTab("saved");
+      setRouteFilter("all");
+      setSavedMainScrollY(0);
+      setView("saved");
+    }
   }
 
   if (view === "destination") {
@@ -84,9 +99,32 @@ export default function HomePage() {
           setSavedQuery("");
           setSavedFilter("all");
           setSavedScrollY(0);
+          setSavedMainScrollY(0);
           setView("saved-list");
         }}
+        tab={savedTab}
+        onTabChange={setSavedTab}
+        routeFilter={routeFilter}
+        onRouteFilterChange={setRouteFilter}
+        initialScrollY={savedMainScrollY}
+        selectedRouteId={selectedRouteId}
+        onSelectRoute={(route) => {
+          setSavedMainScrollY(window.scrollY);
+          setSelectedRouteId(route.id);
+          setView("route-detail");
+        }}
         onNavigate={handleNavigate}
+      />
+    );
+  }
+
+  if (view === "route-detail") {
+    return (
+      <RouteDetailScreen
+        // Route가 바뀌면 Day 선택을 Day 1로 초기화하기 위해 key 사용
+        key={selectedRouteId}
+        route={getRoute(selectedRouteId)}
+        onBack={() => setView("saved")}
       />
     );
   }
